@@ -33,12 +33,13 @@ public class DataChangeLogBuilder {
 
 	/**
 	 * Registers a new data-changeset to be run when calling {@link #run()} on this
-	 * builder.<br />
-	 * Throw a {@link DataChangeLogException} inside of the
-	 * {@link Consumer<EntityManager>} if you'd like to abort the whole process. If
-	 * you abort none of the changes will be committed since all of the registered
-	 * functions are executed within a single transaction.
+	 * builder.<br>
+	 * Throw a {@link DataChangeLogException} inside of the {@link Consumer} if
+	 * you'd like to abort the whole process. If you abort none of the changes will
+	 * be committed since all of the registered functions are executed within a
+	 * single transaction.
 	 *
+	 * @param changeId              a unique change-ID
 	 * @param dataChangeSetFunction the function that will change some data in the
 	 *                              database.
 	 * @return an instance of this {@link DataChangeLogBuilder} to provide a fluent
