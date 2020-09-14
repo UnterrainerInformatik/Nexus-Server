@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+	xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:pro="http://www.liquibase.org/xml/ns/pro"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+	<changeSet author="PSILO" id="1.0">
+		<createTable tableName="logging"
+			remarks="Contains log messages.">
+			<column name="id" type="BIGINT" autoIncrement="true">
+				<constraints nullable="false" primaryKey="true"
+					primaryKeyName="pk_logging" unique="true"
+					uniqueConstraintName="uc_logging_id" />
+			</column>
+
+			<column name="message" type="varchar(500)">
+				<constraints nullable="true" />
+			</column>
+
+			<column name="createdOn" type="TIMESTAMP(6)">
+				<constraints nullable="true" />
+			</column>
+			<column name="editedOn" type="TIMESTAMP(6)">
+				<constraints nullable="true" />
+			</column>
+		</createTable>
+	</changeSet>
+
+	<changeSet author="GUN" id="1.1">
+		<createTable tableName="crontab"
+			remarks="Contains crontab definitions.">
+			<column name="id" type="BIGINT" autoIncrement="true">
+				<constraints nullable="false" primaryKey="true"
+					primaryKeyName="pk_crontab" unique="true"
+					uniqueConstraintName="uc_crontab_id" />
+			</column>
+
+			<column name="name" type="varchar(100)">
+				<constraints nullable="true" />
+			</column>
+
+			<column name="enabled" type="BOOLEAN">
+				<constraints nullable="true" />
+			</column>
+
+			<column name="type" type="varchar(100)">
+				<constraints nullable="true" />
+			</column>
+
+			<column name="data" type="varchar(200)">
+				<constraints nullable="true" />
+			</column>
+
+			<column name="cronDef" type="varchar(50)">
+				<constraints nullable="true" />
+			</column>
+			
+			<column name="createdOn" type="TIMESTAMP(6)">
+				<constraints nullable="true" />
+			</column>
+			<column name="editedOn" type="TIMESTAMP(6)">
+				<constraints nullable="true" />
+			</column>
+		</createTable>
+	</changeSet>
+	
+</databaseChangeLog>

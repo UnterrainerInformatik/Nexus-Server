@@ -1,0 +1,51 @@
+version: '3'
+services:
+  backend:
+    image: gufalcon/nexus-server:latest
+    restart: always
+    depends_on:
+      - db
+    ports:
+      - "1280:8080"
+      - "12443:8443"
+      - "1901:1901/udp"
+      - "7979:7979/udp"
+    environment:
+      - HTTP_PORT=8080
+      - HTTP_HOST=0.0.0.0
+      - NEXUS_SMTP_SERVER=smtp.gmail.com
+      - NEXUS_SMTP_AUTH=true
+      - NEXUS_SMTP_PORT=465
+      - NEXUS_SMTP_USER=${NEXUS_SMTP_USER}
+      - NEXUS_SMTP_PASSWORD=${NEXUS_SMTP_PASSWORD}
+      - NEXUS_SMTP_TRANSPORT=SMTPS
+      - DB_DRIVER=mysql
+      - DB_SERVER=db
+      - DB_PORT=3306
+      - DB_NAME=nexusserver
+      - DB_USER=nexusserver
+      - DB_PASSWORD=${DB_PASSWORD}
+    labels:
+      - "traefik.enable=true"
+      - "traefik.nexus-server.port=8080"
+      - "traefik.nexus-server.backend=nexus-server"
+      - "traefik.nexus-server.frontend.rule=Host:nexus-server.unterrainer.info"
+      - "traefik.nexus-server.frontend.entryPoints=http,https"
+
+  db:
+    image: mariadb:latest
+    restart: always
+    ports:
+      - 15300:3306
+    environment:
+      - MYSQL_ROOT_PASSWORD=${DB_ROOT_PASSWORD}
+      - MYSQL_DATABASE=nexusserver
+      - MYSQL_USER=nexusserver
+      - MYSQL_PASSWORD=${DB_PASSWORD}
+    volumes:
+      - "/app/data/nexus-server/mysql-data/db:/var/lib/mysql"
+
+networks:
+  default:
+    external:
+      name: proxy_default

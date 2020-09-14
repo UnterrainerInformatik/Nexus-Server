@@ -1,0 +1,73 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+	<parent>
+		<groupId>info.unterrainer.commons</groupId>
+		<artifactId>parent-pom</artifactId>
+		<version>0.0.24</version>
+	</parent>
+
+	<properties>
+		<mainclass>info.unterrainer.nexus.nexusserver.NexusServer</mainclass>
+		<name>Nexus-Server</name>
+		<package-path>info/unterrainer/nexus/nexusserver</package-path>
+		<packg-string>info.unterrainer.nexus.nexusserver</packg-string>
+	</properties>
+
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>info.unterrainer.nexus</groupId>
+	<artifactId>nexus-server</artifactId>
+	<version>0.0.1</version>
+	<name>NexusServer</name>
+	<packaging>jar</packaging>
+
+	<dependencies>
+		<dependency>
+			<groupId>com.cronutils</groupId>
+			<artifactId>cron-utils</artifactId>
+			<version>9.1.1</version>
+		</dependency>
+		<dependency>
+			<groupId>info.unterrainer.commons</groupId>
+			<artifactId>http-server</artifactId>
+			<version>0.0.41</version>
+		</dependency>
+		<dependency>
+			<groupId>info.unterrainer.commons</groupId>
+			<artifactId>crontab-scheduler</artifactId>
+			<version>0.0.3</version>
+		</dependency>
+		<dependency>
+			<groupId>info.unterrainer.commons</groupId>
+			<artifactId>rdb-utils</artifactId>
+			<version>0.0.23</version>
+		</dependency>
+		<dependency>
+			<groupId>info.unterrainer.commons</groupId>
+			<artifactId>serialization</artifactId>
+			<version>0.0.10</version>
+		</dependency>
+		<dependency>
+			<groupId>javax.persistence</groupId>
+			<artifactId>javax.persistence-api</artifactId>
+			<version>2.2</version>
+		</dependency>
+		<dependency>
+			<groupId>ma.glasnost.orika</groupId>
+			<artifactId>orika-core</artifactId>
+			<version>1.5.4</version>
+		</dependency>
+		<dependency>
+			<groupId>org.simplejavamail</groupId>
+			<artifactId>simple-java-mail</artifactId>
+			<version>6.4.3</version>
+		</dependency>
+		<dependency>
+			<groupId>org.simplejavamail</groupId>
+			<artifactId>core-module</artifactId>
+			<version>6.4.3</version>
+		</dependency>
+	</dependencies>
+
+</project>
