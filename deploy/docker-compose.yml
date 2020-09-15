@@ -25,10 +25,10 @@ services:
       - DB_PASSWORD=${DB_PASSWORD}
     labels:
       - "traefik.enable=true"
-      - "traefik.nexus-server.port=8080"
-      - "traefik.nexus-server.backend=nexus-server"
-      - "traefik.nexus-server.frontend.rule=Host:nexus-server.unterrainer.info"
-      - "traefik.nexus-server.frontend.entryPoints=http,https"
+      - "traefik.nexus.port=8080"
+      - "traefik.nexus.backend=nexus"
+      - "traefik.nexus.frontend.rule=Host:nexus.unterrainer.info"
+      - "traefik.nexus.frontend.entryPoints=http,https"
 
   db:
     image: mariadb:latest
