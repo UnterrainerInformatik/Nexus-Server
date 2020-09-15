@@ -1,4 +1,4 @@
-version: '3'
+version: "3"
 services:
   backend:
     image: gufalcon/nexus-server:latest
@@ -36,7 +36,7 @@ services:
     image: mariadb:latest
     restart: always
     ports:
-      - 15300:3306
+      - 15200:3306
     environment:
       - MYSQL_ROOT_PASSWORD=${DB_ROOT_PASSWORD}
       - MYSQL_DATABASE=nexusserver
