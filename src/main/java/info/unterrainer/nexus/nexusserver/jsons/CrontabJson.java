@@ -24,5 +24,4 @@ public class CrontabJson extends BasicJson {
 	private CrontabType type;
 
 	private String cronDef;
-	private String className;
 }

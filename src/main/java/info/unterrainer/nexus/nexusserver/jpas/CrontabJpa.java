@@ -28,5 +28,4 @@ public class CrontabJpa extends BasicJpa {
 	private CrontabType type;
 
 	private String cronDef;
-	private String className;
 }
