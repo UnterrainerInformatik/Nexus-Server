@@ -6,10 +6,8 @@ services:
     depends_on:
       - db
     ports:
-      - "1280:8080"
-      - "12443:8443"
-      - "1901:1901/udp"
-      - "7979:7979/udp"
+      - "1180:8080"
+      - "11443:8443"
     environment:
       - HTTP_PORT=8080
       - HTTP_HOST=0.0.0.0
