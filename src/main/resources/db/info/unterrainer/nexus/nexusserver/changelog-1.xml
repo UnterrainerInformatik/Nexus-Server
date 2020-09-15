@@ -65,4 +65,50 @@
 		</createTable>
 	</changeSet>
 	
+	<changeSet author="GUN" id="1.2">
+		<createTable tableName="DATACHANGELOG"
+			remarks="Contains changesets for data-setup and -change.">
+			<column name="id" type="BIGINT" autoIncrement="true">
+				<constraints nullable="false" primaryKey="true"
+					primaryKeyName="pk_DATACHANGELOG" unique="true"
+					uniqueConstraintName="uc_DATACHANGELOG_id" />
+			</column>
+
+			<column name="changeId" type="varchar(50)">
+				<constraints nullable="true" />
+			</column>
+			<column name="executedOn" type="TIMESTAMP(6)">
+				<constraints nullable="true" />
+			</column>
+
+			<column name="createdOn" type="TIMESTAMP(6)">
+				<constraints nullable="true" />
+			</column>
+			<column name="editedOn" type="TIMESTAMP(6)">
+				<constraints nullable="true" />
+			</column>
+		</createTable>
+
+		<createIndex tableName="DATACHANGELOG"
+			indexName="idx_DATACHANGELOG_changeId" unique="false">
+			<column name="changeId" />
+		</createIndex>
+
+		<createTable tableName="DATACHANGELOGLOCK"
+			remarks="Contains the locks for the changesets table.">
+			<column name="id" type="BIGINT" autoIncrement="true">
+				<constraints nullable="false" primaryKey="true"
+					primaryKeyName="pk_DATACHANGELOGLOCK" unique="true"
+					uniqueConstraintName="uc_DATACHANGELOGLOCK_id" />
+			</column>
+
+			<column name="createdOn" type="TIMESTAMP(6)">
+				<constraints nullable="true" />
+			</column>
+			<column name="editedOn" type="TIMESTAMP(6)">
+				<constraints nullable="true" />
+			</column>
+		</createTable>
+	</changeSet>
+
 </databaseChangeLog>
