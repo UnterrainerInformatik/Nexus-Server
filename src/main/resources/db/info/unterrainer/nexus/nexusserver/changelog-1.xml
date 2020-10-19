@@ -111,4 +111,63 @@
 		</createTable>
 	</changeSet>
 
+	<changeSet author="GUN" id="1.3">
+		<createTable tableName="nexusUser"
+			remarks="Contains the user-data for authentication attempts.">
+			<column name="id" type="BIGINT" autoIncrement="true">
+				<constraints nullable="false" primaryKey="true"
+					primaryKeyName="pk_nexusUser" unique="true"
+					uniqueConstraintName="uc_nexusUser_id" />
+			</column>
+
+			<column name="userName" type="varchar(255)">
+				<constraints nullable="true" />
+			</column>
+			<column name="client" type="varchar(255)">
+				<constraints nullable="true" />
+			</column>
+			
+			<column name="givenName" type="varchar(255)">
+				<constraints nullable="true" />
+			</column>
+			<column name="familyName" type="varchar(255)">
+				<constraints nullable="true" />
+			</column>
+			
+			<column name="email" type="varchar(255)">
+				<constraints nullable="true" />
+			</column>
+			<column name="emailVerified" type="BOOLEAN">
+				<constraints nullable="true" />
+			</column>
+			
+			<column name="realmRoles" type="LONGTEXT">
+				<constraints nullable="true" />
+			</column>
+			<column name="clientRoles" type="LONGTEXT">
+				<constraints nullable="true" />
+			</column>
+			
+			<column name="isActive" type="BOOLEAN">
+				<constraints nullable="true" />
+			</column>
+			<column name="isBearer" type="BOOLEAN">
+				<constraints nullable="true" />
+			</column>
+			
+			<column name="createdOn" type="TIMESTAMP(6)">
+				<constraints nullable="true" />
+			</column>
+			<column name="editedOn" type="TIMESTAMP(6)">
+				<constraints nullable="true" />
+			</column>
+		</createTable>
+	</changeSet>
+		
+	<changeSet author="GUN" id="1.4">
+		<createIndex tableName="nexusUser"
+			indexName="idx_nexusUser_userName" unique="true">
+			<column name="userName" />
+		</createIndex>
+	</changeSet>
 </databaseChangeLog>

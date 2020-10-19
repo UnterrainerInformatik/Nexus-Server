@@ -23,6 +23,7 @@ import info.unterrainer.commons.crontabscheduler.CrontabScheduler;
 import info.unterrainer.commons.httpserver.HttpServer;
 import info.unterrainer.commons.httpserver.daos.JpqlDao;
 import info.unterrainer.commons.httpserver.daos.JpqlTransactionManager;
+import info.unterrainer.commons.httpserver.daos.ParamMap;
 import info.unterrainer.commons.httpserver.enums.Endpoint;
 import info.unterrainer.commons.rdbutils.RdbUtils;
 import info.unterrainer.commons.rdbutils.exceptions.RdbUtilException;
@@ -32,6 +33,7 @@ import info.unterrainer.nexus.nexusserver.crontab.CrontabHandler;
 import info.unterrainer.nexus.nexusserver.datachangelog.DataChangeLog;
 import info.unterrainer.nexus.nexusserver.jpas.CrontabJpa;
 import info.unterrainer.nexus.nexusserver.jpas.LogJpa;
+import info.unterrainer.nexus.nexusserver.jpas.NexusUserJpa;
 import info.unterrainer.nexus.nexusserver.jsons.CrontabJson;
 import info.unterrainer.nexus.nexusserver.jsons.LogJson;
 import lombok.extern.slf4j.Slf4j;
@@ -97,6 +99,24 @@ public class NexusServer {
 				.executorService(executorService)
 				.appVersionFqns(new String[] { "at.elitezettl.server.eliteserver.Information" })
 				.build();
+
+		JpqlDao<NexusUserJpa> userDao = new JpqlDao<>(emf, NexusUserJpa.class);
+		server.setUserAccessInterceptor(userData -> {
+			NexusUserJpa jpa = NexusUserJpa.builder()
+					.userName(userData.getUserName())
+					.client(userData.getClient())
+					.givenName(userData.getGivenName())
+					.familyName(userData.getFamilyName())
+					.email(userData.getEmail())
+					.emailVerified(userData.isEmailVerified())
+					.isActive(userData.isActive())
+					.isBearer(userData.isBearer())
+					.clientRoles(String.join(",", userData.getClientRoles()))
+					.realmRoles(String.join(",", userData.getRealmRoles()))
+					.build();
+			userDao.upsert("o.userName=:userName", ParamMap.builder().parameter("userName", jpa.getUserName()).build(),
+					jpa);
+		});
 
 		server.handlerGroupFor(LogJpa.class, LogJson.class, jpqlTransactionManager)
 				.path("logs")
