@@ -21,6 +21,7 @@ import com.cronutils.parser.CronParser;
 import info.unterrainer.commons.crontabscheduler.BasicCrontabHandler;
 import info.unterrainer.commons.crontabscheduler.CrontabScheduler;
 import info.unterrainer.commons.httpserver.HttpServer;
+import info.unterrainer.commons.httpserver.accessmanager.RoleBuilder;
 import info.unterrainer.commons.httpserver.daos.JpqlDao;
 import info.unterrainer.commons.httpserver.daos.JpqlTransactionManager;
 import info.unterrainer.commons.httpserver.daos.ParamMap;
@@ -34,8 +35,11 @@ import info.unterrainer.nexus.nexusserver.datachangelog.DataChangeLog;
 import info.unterrainer.nexus.nexusserver.jpas.CrontabJpa;
 import info.unterrainer.nexus.nexusserver.jpas.LogJpa;
 import info.unterrainer.nexus.nexusserver.jpas.NexusUserJpa;
+import info.unterrainer.nexus.nexusserver.jpas.PreferencesJpa;
 import info.unterrainer.nexus.nexusserver.jsons.CrontabJson;
 import info.unterrainer.nexus.nexusserver.jsons.LogJson;
+import info.unterrainer.nexus.nexusserver.jsons.NexusUserJson;
+import info.unterrainer.nexus.nexusserver.jsons.PreferencesJson;
 import lombok.extern.slf4j.Slf4j;
 import ma.glasnost.orika.MapperFactory;
 import ma.glasnost.orika.impl.DefaultMapperFactory;
@@ -118,6 +122,25 @@ public class NexusServer {
 					jpa);
 		});
 
+		server.handlerGroupFor(NexusUserJpa.class, NexusUserJson.class, jpqlTransactionManager)
+				.path("users")
+				.dao(new JpqlDao<>(emf, NexusUserJpa.class))
+				.endpoints(Endpoint.ALL)
+				.addRoleFor(Endpoint.ALL, RoleBuilder.authenticated())
+				.getListInterceptor()
+				.query("userName = :userName[string]")
+				.build()
+				.add();
+		server.handlerGroupFor(PreferencesJpa.class, PreferencesJson.class, jpqlTransactionManager)
+				.path("preferences")
+				.dao(new JpqlDao<>(emf, PreferencesJpa.class))
+				.endpoints(Endpoint.ALL)
+				.addRoleFor(Endpoint.ALL, RoleBuilder.authenticated())
+				.getListInterceptor()
+				.join("JOIN " + NexusUserJpa.class.getSimpleName() + " u ON o.userId = u.id")
+				.query("u.userName = :userName[string]")
+				.build()
+				.add();
 		server.handlerGroupFor(LogJpa.class, LogJson.class, jpqlTransactionManager)
 				.path("logs")
 				.dao(loggingDao)

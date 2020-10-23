@@ -170,4 +170,40 @@
 			<column name="userName" />
 		</createIndex>
 	</changeSet>
+	
+	<changeSet author="GUN" id="1.5">
+		<createTable tableName="preferences"
+			remarks="Contains the preferences of a user.">
+			<column name="id" type="BIGINT" autoIncrement="true">
+				<constraints nullable="false" primaryKey="true"
+					primaryKeyName="pk_preferences" unique="true"
+					uniqueConstraintName="uc_preferences_id" />
+			</column>
+
+			<column name="userId" type="BIGINT">
+				<constraints nullable="true" />
+			</column>
+
+			<column name="darkTheme" type="BOOLEAN">
+				<constraints nullable="true" />
+			</column>
+
+			<column name="languageKey" type="varchar(5)">
+				<constraints nullable="true" />
+			</column>
+
+			<column name="createdOn" type="TIMESTAMP(6)">
+				<constraints nullable="true" />
+			</column>
+			<column name="editedOn" type="TIMESTAMP(6)">
+				<constraints nullable="true" />
+			</column>
+		</createTable>
+
+		<addForeignKeyConstraint
+			baseColumnNames="userId" baseTableName="preferences"
+			constraintName="fk_preferences_user_id"
+			referencedColumnNames="id" referencedTableName="nexusUser"
+			onDelete="CASCADE" onUpdate="RESTRICT" />
+	</changeSet>
 </databaseChangeLog>
