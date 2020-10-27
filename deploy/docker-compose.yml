@@ -23,6 +23,8 @@ services:
       - DB_NAME=nexusserver
       - DB_USER=nexusserver
       - DB_PASSWORD=${DB_PASSWORD}
+      - KEYCLOAK_HOST=https://keycloak.unterrainer.info
+      - KEYCLOAK_REALM=Nexus
     labels:
       - "traefik.enable=true"
       - "traefik.nexus-server.port=8080"
