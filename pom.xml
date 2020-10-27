@@ -18,7 +18,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>info.unterrainer.nexus</groupId>
 	<artifactId>nexus-server</artifactId>
-	<version>0.1.0</version>
+	<version>0.1.1</version>
 	<name>NexusServer</name>
 	<packaging>jar</packaging>
 
