@@ -33,7 +33,7 @@ services:
       - "traefik.nexus-server.frontend.entryPoints=http,https"
 
   db:
-    image: mariadb:latest
+    image: mariadb:10.5.6-focal
     restart: always
     ports:
       - 15200:3306
