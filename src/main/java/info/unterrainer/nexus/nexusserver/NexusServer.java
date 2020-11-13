@@ -115,8 +115,8 @@ public class NexusServer {
 					.emailVerified(userData.isEmailVerified())
 					.isActive(userData.isActive())
 					.isBearer(userData.isBearer())
-					.clientRoles(String.join(",", userData.getClientRoles()))
-					.realmRoles(String.join(",", userData.getRealmRoles()))
+					.clientRoles("," + String.join(",", userData.getClientRoles()) + ",")
+					.realmRoles("," + String.join(",", userData.getRealmRoles()) + ",")
 					.build();
 			userDao.upsert("o.userName=:userName", ParamMap.builder().parameter("userName", jpa.getUserName()).build(),
 					jpa);
