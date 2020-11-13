@@ -206,4 +206,15 @@
 			referencedColumnNames="id" referencedTableName="nexusUser"
 			onDelete="CASCADE" onUpdate="RESTRICT" />
 	</changeSet>
+	
+	<changeSet author="GUN" id="1.6">
+		<createIndex tableName="nexusUser"
+			indexName="idx_nexusUser_clientRoles" unique="false">
+			<column name="clientRoles" />
+		</createIndex>
+		<createIndex tableName="nexusUser"
+			indexName="idx_nexusUser_realmRoles" unique="false">
+			<column name="realmRoles" />
+		</createIndex>
+	</changeSet>
 </databaseChangeLog>
