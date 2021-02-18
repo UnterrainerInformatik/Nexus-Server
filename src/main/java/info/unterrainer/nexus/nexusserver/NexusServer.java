@@ -130,6 +130,9 @@ public class NexusServer {
 				.getListInterceptor()
 				.query("userName = :userName[string]")
 				.build()
+				.getListInterceptor()
+				.query("clientRoles LIKE :clientRole[string] AND realmRoles LIKE :realmRole[string]")
+				.build()
 				.add();
 		server.handlerGroupFor(PreferencesJpa.class, PreferencesJson.class, jpqlTransactionManager)
 				.path("preferences")
