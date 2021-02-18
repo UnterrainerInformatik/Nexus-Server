@@ -18,7 +18,7 @@ services:
       - NEXUS_SMTP_PASSWORD=${NEXUS_SMTP_PASSWORD}
       - NEXUS_SMTP_TRANSPORT=SMTPS
       - DB_DRIVER=mysql
-      - DB_SERVER=db
+      - DB_SERVER=db-nexus
       - DB_PORT=3306
       - DB_NAME=nexusserver
       - DB_USER=nexusserver
@@ -32,7 +32,7 @@ services:
       - "traefik.nexus-server.frontend.rule=Host:nexus-server.unterrainer.info"
       - "traefik.nexus-server.frontend.entryPoints=http,https"
 
-  db:
+  db-nexus:
     image: mariadb:10.5.6-focal
     restart: always
     ports:

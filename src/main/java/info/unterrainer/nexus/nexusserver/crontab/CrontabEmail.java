@@ -46,7 +46,7 @@ public class CrontabEmail {
 
 		public Text newLine() {
 			text += "\n";
-			html += "<br />";
+			html += "<br>";
 			return this;
 		}
 
