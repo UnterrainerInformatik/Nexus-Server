@@ -4,7 +4,7 @@ services:
     image: gufalcon/nexus-server:latest
     restart: always
     depends_on:
-      - db
+      - db-nexus
     ports:
       - "1180:8080"
       - "11443:8443"
