@@ -76,8 +76,8 @@ public class NexusServer {
 		emf = RdbUtils.createAutoclosingEntityManagerFactory(NexusServer.class, "nexusserver");
 
 		JpqlTransactionManager jpqlTransactionManager = new JpqlTransactionManager(emf);
-		executorService = new ThreadPoolExecutor(1, 200, 0L, TimeUnit.MILLISECONDS,
-				new LinkedBlockingQueue<Runnable>());
+		executorService = new ThreadPoolExecutor(200, 200, 60L, TimeUnit.SECONDS, new LinkedBlockingQueue<Runnable>());
+		executorService.allowCoreThreadTimeOut(true);
 
 		MailerRegularBuilderImpl mailerBuilder = MailerBuilder.withSMTPServer(configuration.smtpServer(),
 				configuration.smtpPort());
