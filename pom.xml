@@ -18,7 +18,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>info.unterrainer.nexus</groupId>
 	<artifactId>nexus-server</artifactId>
-	<version>0.1.1</version>
+	<version>0.1.2</version>
 	<name>NexusServer</name>
 	<packaging>jar</packaging>
 
@@ -31,27 +31,27 @@
 		<dependency>
 			<groupId>info.unterrainer.commons</groupId>
 			<artifactId>http-server</artifactId>
-			<version>0.1.27</version>
+			<version>0.2.0</version>
 		</dependency>
 		<dependency>
 			<groupId>info.unterrainer.commons</groupId>
 			<artifactId>crontab-scheduler</artifactId>
-			<version>0.1.0</version>
+			<version>0.1.2</version>
 		</dependency>
 		<dependency>
 			<groupId>info.unterrainer.commons</groupId>
 			<artifactId>rdb-utils</artifactId>
-			<version>0.1.1</version>
+			<version>0.1.6</version>
 		</dependency>
 		<dependency>
 			<groupId>info.unterrainer.commons</groupId>
 			<artifactId>serialization</artifactId>
-			<version>0.1.0</version>
+			<version>0.1.2</version>
 		</dependency>
 		<dependency>
 			<groupId>io.javalin</groupId>
 			<artifactId>javalin</artifactId>
-			<version>3.11.2</version>
+			<version>3.13.4</version>
 		</dependency>
 		<dependency>
 			<groupId>javax.persistence</groupId>

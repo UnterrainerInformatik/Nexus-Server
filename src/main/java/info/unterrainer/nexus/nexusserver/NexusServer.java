@@ -158,11 +158,11 @@ public class NexusServer {
 		server.start();
 
 		Executors.newSingleThreadScheduledExecutor().scheduleAtFixedRate(() -> {
-			crontabScheduler.prepareUpdate();
+			crontabScheduler.prepareReplacingHandlers();
 			crontabHandler.load();
 			for (BasicCrontabHandler c : crontabHandler.getItems())
 				crontabScheduler.addHandler(c, c.getName());
-			crontabScheduler.finishUpdate();
+			crontabScheduler.finishReplacingHandlers();
 		}, 0, 10, TimeUnit.SECONDS);
 	}
 }
