@@ -26,7 +26,7 @@ public class CrontabHandler {
 	protected final List<RunCrontabHandler> items = new ArrayList<>();
 
 	public void load() {
-		List<CrontabJpa> jpas = crontabRunDao.getList(0, Long.MAX_VALUE).getEntries();
+		List<CrontabJpa> jpas = crontabRunDao.select().build().getList();
 		items.clear();
 		for (CrontabJpa jpa : jpas) {
 			RunCrontabHandler handler = new RunCrontabHandler("runHandler" + jpa.getId() + "", jpa.getEnabled(),

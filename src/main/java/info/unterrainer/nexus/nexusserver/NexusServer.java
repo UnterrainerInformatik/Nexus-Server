@@ -23,8 +23,6 @@ import info.unterrainer.commons.crontabscheduler.CrontabScheduler;
 import info.unterrainer.commons.httpserver.HttpServer;
 import info.unterrainer.commons.httpserver.accessmanager.RoleBuilder;
 import info.unterrainer.commons.httpserver.daos.JpqlDao;
-import info.unterrainer.commons.httpserver.daos.JpqlTransactionManager;
-import info.unterrainer.commons.httpserver.daos.ParamMap;
 import info.unterrainer.commons.httpserver.enums.Endpoint;
 import info.unterrainer.commons.rdbutils.RdbUtils;
 import info.unterrainer.commons.rdbutils.exceptions.RdbUtilException;
@@ -75,7 +73,6 @@ public class NexusServer {
 		configuration = NexusServerConfiguration.read();
 		emf = RdbUtils.createAutoclosingEntityManagerFactory(NexusServer.class, "nexusserver");
 
-		JpqlTransactionManager jpqlTransactionManager = new JpqlTransactionManager(emf);
 		executorService = new ThreadPoolExecutor(200, 200, 60L, TimeUnit.SECONDS, new LinkedBlockingQueue<Runnable>());
 		executorService.allowCoreThreadTimeOut(true);
 
@@ -104,27 +101,8 @@ public class NexusServer {
 				.appVersionFqns(new String[] { "at.elitezettl.server.eliteserver.Information" })
 				.build();
 
-		JpqlDao<NexusUserJpa> userDao = new JpqlDao<>(emf, NexusUserJpa.class);
-		server.setUserAccessInterceptor(userData -> {
-			NexusUserJpa jpa = NexusUserJpa.builder()
-					.userName(userData.getUserName())
-					.client(userData.getClient())
-					.givenName(userData.getGivenName())
-					.familyName(userData.getFamilyName())
-					.email(userData.getEmail())
-					.emailVerified(userData.isEmailVerified())
-					.isActive(userData.isActive())
-					.isBearer(userData.isBearer())
-					.clientRoles("," + String.join(",", userData.getClientRoles()) + ",")
-					.realmRoles("," + String.join(",", userData.getRealmRoles()) + ",")
-					.build();
-			userDao.upsert("o.userName=:userName", ParamMap.builder().parameter("userName", jpa.getUserName()).build(),
-					jpa);
-		});
-
-		server.handlerGroupFor(NexusUserJpa.class, NexusUserJson.class, jpqlTransactionManager)
+		server.handlerGroupFor(NexusUserJpa.class, NexusUserJson.class, new JpqlDao<>(emf, NexusUserJpa.class))
 				.path("users")
-				.dao(new JpqlDao<>(emf, NexusUserJpa.class))
 				.endpoints(Endpoint.ALL)
 				.addRoleFor(Endpoint.ALL, RoleBuilder.authenticated())
 				.getListInterceptor()
@@ -134,9 +112,8 @@ public class NexusServer {
 				.query("clientRoles LIKE :clientRole[string] AND realmRoles LIKE :realmRole[string]")
 				.build()
 				.add();
-		server.handlerGroupFor(PreferencesJpa.class, PreferencesJson.class, jpqlTransactionManager)
+		server.handlerGroupFor(PreferencesJpa.class, PreferencesJson.class, new JpqlDao<>(emf, PreferencesJpa.class))
 				.path("preferences")
-				.dao(new JpqlDao<>(emf, PreferencesJpa.class))
 				.endpoints(Endpoint.ALL)
 				.addRoleFor(Endpoint.ALL, RoleBuilder.authenticated())
 				.getListInterceptor()
@@ -144,14 +121,9 @@ public class NexusServer {
 				.query("u.userName = :userName[string]")
 				.build()
 				.add();
-		server.handlerGroupFor(LogJpa.class, LogJson.class, jpqlTransactionManager)
-				.path("logs")
-				.dao(loggingDao)
-				.endpoints(Endpoint.ALL)
-				.add();
-		server.handlerGroupFor(CrontabJpa.class, CrontabJson.class, jpqlTransactionManager)
+		server.handlerGroupFor(LogJpa.class, LogJson.class, loggingDao).path("logs").endpoints(Endpoint.ALL).add();
+		server.handlerGroupFor(CrontabJpa.class, CrontabJson.class, crontabDao)
 				.path("crontabs")
-				.dao(crontabDao)
 				.endpoints(Endpoint.ALL)
 				.add();
 

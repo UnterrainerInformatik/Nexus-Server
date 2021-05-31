@@ -31,7 +31,7 @@
 		<dependency>
 			<groupId>info.unterrainer.commons</groupId>
 			<artifactId>http-server</artifactId>
-			<version>0.2.0</version>
+			<version>0.2.11</version>
 		</dependency>
 		<dependency>
 			<groupId>info.unterrainer.commons</groupId>

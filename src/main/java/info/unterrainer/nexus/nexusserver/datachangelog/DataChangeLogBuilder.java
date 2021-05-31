@@ -10,7 +10,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 
 import info.unterrainer.commons.httpserver.daos.JpqlDao;
-import info.unterrainer.commons.httpserver.daos.ParamMap;
 import info.unterrainer.commons.rdbutils.Transactions;
 import info.unterrainer.nexus.nexusserver.jpas.DataChangeLogJpa;
 import info.unterrainer.nexus.nexusserver.jpas.DataChangeLogLockJpa;
@@ -62,16 +61,20 @@ public class DataChangeLogBuilder {
 			DataChangeLogLockJpa lockJpa = null;
 			try {
 				// Obtain lock.
-				lockJpa = dataChangeSetLockDao.firstOf(em, true);
+				lockJpa = dataChangeSetLockDao.select().entityManager(em).lockPessimistic().build().getFirst();
 				if (lockJpa != null)
 					throw new DataChangeLogException("Could not obtain database lock.");
 				lockJpa = new DataChangeLogLockJpa();
-				dataChangeSetLockDao.create(em, lockJpa);
+				dataChangeSetLockDao.insert(lockJpa).entityManager(em).execute();
 				log.info("Obtained database lock.");
 
 				for (ChangeSet dataChangeSet : dataChangeSets) {
-					DataChangeLogJpa changeJpa = dataChangeSetDao.firstOf(em, "o.changeId=:changeId",
-							ParamMap.builder().parameter("changeId", dataChangeSet.changeId).build());
+					DataChangeLogJpa changeJpa = dataChangeSetDao.select()
+							.entityManager(em)
+							.where("o.changeId = :changeId")
+							.addParam("changeId", dataChangeSet.changeId)
+							.build()
+							.getFirst();
 					if (changeJpa == null) {
 						log.info("Executing changeset [{}].", dataChangeSet.changeId);
 						dataChangeSet.function.accept(em);
@@ -79,13 +82,13 @@ public class DataChangeLogBuilder {
 								.changeId(dataChangeSet.changeId)
 								.executedOn(ZonedDateTime.now(ZoneOffset.UTC).toLocalDateTime())
 								.build();
-						dataChangeSetDao.create(changeJpa);
+						dataChangeSetDao.insert(changeJpa).execute();
 					} else
 						log.info("Skipping changeset [{}].", dataChangeSet.changeId);
 				}
 			} finally {
 				if (lockJpa != null) {
-					dataChangeSetLockDao.delete(em, lockJpa.getId());
+					dataChangeSetLockDao.select(lockJpa.getId()).entityManager(em).delete();
 					log.info("Released database lock.");
 				}
 			}
