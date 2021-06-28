@@ -31,12 +31,12 @@
 		<dependency>
 			<groupId>info.unterrainer.commons</groupId>
 			<artifactId>http-server</artifactId>
-			<version>0.2.14</version>
+			<version>0.2.24</version>
 		</dependency>
 		<dependency>
 			<groupId>info.unterrainer.commons</groupId>
 			<artifactId>crontab-scheduler</artifactId>
-			<version>0.1.2</version>
+			<version>0.1.11</version>
 		</dependency>
 		<dependency>
 			<groupId>info.unterrainer.commons</groupId>

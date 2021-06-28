@@ -1,6 +1,8 @@
 package info.unterrainer.nexus.nexusserver;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.Executors;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -130,11 +132,9 @@ public class NexusServer {
 		server.start();
 
 		Executors.newSingleThreadScheduledExecutor().scheduleAtFixedRate(() -> {
-			crontabScheduler.prepareReplacingHandlers();
 			crontabHandler.load();
-			for (BasicCrontabHandler c : crontabHandler.getItems())
-				crontabScheduler.addHandler(c, c.getName());
-			crontabScheduler.finishReplacingHandlers();
+			List<BasicCrontabHandler> handlers = new ArrayList<>(crontabHandler.getItems());
+			crontabScheduler.setHandlers(handlers);
 		}, 0, 10, TimeUnit.SECONDS);
 	}
 }
