@@ -108,10 +108,10 @@ public class NexusServer {
 				.endpoints(Endpoint.ALL)
 				.addRoleFor(Endpoint.ALL, RoleBuilder.authenticated())
 				.getListInterceptor()
-				.query("userName = :userName[string]")
+				.query("o.userName = :userName[string]")
 				.build()
 				.getListInterceptor()
-				.query("clientRoles LIKE :clientRole[string] AND realmRoles LIKE :realmRole[string]")
+				.query("o.clientRoles LIKE :clientRole[string] AND o.realmRoles LIKE :realmRole[string]")
 				.build()
 				.add();
 		server.handlerGroupFor(PreferencesJpa.class, PreferencesJson.class, new JpqlDao<>(emf, PreferencesJpa.class))
